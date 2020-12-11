@@ -14,7 +14,7 @@ function tokens(n) {
     return web3.utils.toWei(n, 'ether')
 }
 
-contract('HodlFarmTest', ([owner, investor]) => {
+contract('HodlFarmTest', ([alice, bob]) => {
     let mockDai, hodlToken, hodlFarm
 
     //recreate migration
@@ -26,8 +26,8 @@ contract('HodlFarmTest', ([owner, investor]) => {
         //transfer hodlToken to hodlFarm
         await hodlToken.transfer(hodlFarm.address, tokens('21000000'))
 
-        //transfer mockDai to investor
-        await mockDai.transfer(investor, tokens('5000'), {from: owner})
+        //transfer mockDai to bob
+        await mockDai.transfer(bob, tokens('5000'), {from: alice})
     })
 
 
@@ -38,10 +38,10 @@ contract('HodlFarmTest', ([owner, investor]) => {
         })
 
         it('users have tokens', async() => {
-            const ownerBal = await mockDai.balanceOf(owner)
-            const investorBal = await mockDai.balanceOf(investor)
-            assert.equal(ownerBal.toString(), tokens('5000'), 'owner balance not correct')
-            assert.equal(investorBal.toString(), tokens('5000'), 'investor balance not correct')
+            const aliceBal = await mockDai.balanceOf(alice)
+            const bobBal = await mockDai.balanceOf(bob)
+            assert.equal(aliceBal.toString(), tokens('5000'), 'alice balance not correct')
+            assert.equal(bobBal.toString(), tokens('5000'), 'bob balance not correct')
         })
     })
 
@@ -61,6 +61,28 @@ contract('HodlFarmTest', ([owner, investor]) => {
         it('contract has tokens', async() => {
             const balance = await hodlToken.balanceOf(hodlFarm.address)
             assert.equal(balance.toString(), tokens('21000000'))
+        })
+    })
+
+    describe('farming tokens', async() => {
+        it('rewards investors for staking', async() => {
+            let result
+
+            //check balance before staking
+            result = await mockDai.balanceOf(alice)
+            assert.equal(result.toString(), tokens('5000'))
+
+            //check approval and staking
+            await mockDai.approve(hodlFarm.address, tokens('5000'), {from: alice})
+            await hodlFarm.stake(tokens('5000'), {from: alice})
+
+            //check balance of alice's mDai
+            result = await mockDai.balanceOf(alice)
+            assert.equal(result.toString(), '0')
+
+            //check that staking balance is correct
+            result = await hodlFarm.stakingBalance(alice)
+            assert.equal(result.toString(), tokens('5000'), 'staking balance fo alice is not correct')
         })
     })
 
