@@ -61,7 +61,7 @@ module.exports = {
     // NB: It's important to wrap the provider as a function.
      kovan: {
      provider: () => new HDWalletProvider(mnemonic, `https://kovan.infura.io/v3/f8fe0d96adb1425d9fa688d58fcd773b`),
-     network_id: 3,       // Ropsten's id
+     network_id: 42,       // Kovan's id
      gas: 5500000,        // Ropsten has a lower block limit than mainnet
      confirmations: 2,    // # of confs to wait between deployments. (default: 0)
      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)

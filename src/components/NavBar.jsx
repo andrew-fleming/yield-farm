@@ -5,6 +5,7 @@ const Bar = styled.nav`
     width: 100%;
     height: 8rem;
     background-color: grey;
+    opacity: 0.75;
 `;
 
 const Title = styled.span`
@@ -19,13 +20,18 @@ const Address = styled.span`
     font-size: 1.2rem;
     display: flex;
     justify-content: flex-start;
-    margin-left: .5rem;
+    margin-left: 1rem;
+    background-color: black;
+`;
+
+const Network = styled(Address)`
+    margin-left: 0;
+    margin-right: 1rem;
 `;
 
 const Adjust = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: space-between;;
 `;
 
 //const userAdd = '0x01...2345';
@@ -33,6 +39,7 @@ const Adjust = styled.div`
 export default function NavBar() {
 
     const userAdd = '0x01...2345';
+    const networkId = 'Kovan'
 
 
     return (
@@ -43,8 +50,11 @@ export default function NavBar() {
                 </Title>
                 <Adjust>
                     <Address>
-                        User: {userAdd}
+                        Farmer: {userAdd}
                     </Address>
+                    <Network>
+                        Network: {networkId}
+                    </Network>
                 </Adjust>
             </Bar>
         </div>
