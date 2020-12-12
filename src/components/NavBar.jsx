@@ -34,12 +34,12 @@ const Adjust = styled.div`
     justify-content: space-between;;
 `;
 
-//const userAdd = '0x01...2345';
 
-export default function NavBar() {
+export default function NavBar(props) {
 
-    const userAdd = '0x01...2345';
-    const networkId = 'Kovan'
+    
+    const userAdd = props.userAddress;
+    const networkId = props.network;
 
 
     return (
