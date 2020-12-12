@@ -37,8 +37,12 @@ const hodlFarm = new web3.eth.Contract(HodlFarm.abi, hodlFarmAddress)
 //token function to convert wei to eth
 //
 
-const tokens = (n) => {
+const toWei = (n) => {
     return web3.utils.toWei(n, 'ether')
+}
+
+const fromWei = (n) => {
+    return web3.utils.fromWei(n, 'ether')
 }
 
 
@@ -74,9 +78,9 @@ export default function Main() {
         }
     }
 
-    const loadDaiBalance = async(user) => {
-        let bal = await dai.methods.balanceOf(user).call()
-        console.log(bal)
+    const loadDaiBalance = async(usr) => {
+        let bal = await dai.methods.balanceOf(usr.toString()).call()
+        setDaiBalance(fromWei(bal))
     }
 
 
@@ -91,12 +95,13 @@ export default function Main() {
     }, [userAddress, network])
 
 
+
     return (
         <div>
             <NavBar userAddress={userAddress} network={network}/>
             <Container>
                 <Boxes>
-                    <StakeBox/>
+                    <StakeBox daiBalance={daiBalance}/>
                     <YieldBox/> 
                 </Boxes>
             </Container>
