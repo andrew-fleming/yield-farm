@@ -33,7 +33,7 @@ const UnstakeButton = styled(StakeButton)``;
 export default function StakeBox(props) {
 
     const daiBal = props.daiBalance
-    const stakedBalance = '0.00'
+    const stakedBalance = props.stakingBalance
 
 
     return (
@@ -44,8 +44,8 @@ export default function StakeBox(props) {
                     <div/>
                     Dai Balance: {daiBal}
                     <div>
-                    <StakeForm/>
-                    <StakeButton>
+                    <StakeForm />
+                    <StakeButton >
                         Stake
                     </StakeButton>
                     </div>

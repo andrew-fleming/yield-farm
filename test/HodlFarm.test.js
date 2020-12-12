@@ -83,6 +83,9 @@ contract('HodlFarmTest', ([alice, bob]) => {
             //check that staking balance is correct
             result = await hodlFarm.stakingBalance(alice)
             assert.equal(result.toString(), tokens('5000'), 'staking balance fo alice is not correct')
+
+            
+
         })
     })
 
