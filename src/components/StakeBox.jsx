@@ -51,6 +51,9 @@ export default function StakeBox(props) {
         setStakeAmount(event.target.value)
     }
 
+    const unstake = () => {
+        props.unstake()
+    }
 
     return (
         <div>
@@ -65,7 +68,7 @@ export default function StakeBox(props) {
                         Stake
                     </StakeButton>
                     </div>
-                    <UnstakeButton>
+                    <UnstakeButton onClick={unstake}>
                         Unstake
                     </UnstakeButton>
                 </Center>

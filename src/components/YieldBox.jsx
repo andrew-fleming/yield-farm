@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { useUser } from '../context/UserContext'
+
 const YieldContainer = styled.div`
     background-color: green;
     width: 30rem;
@@ -26,13 +28,21 @@ const Center = styled.div`
 `;
 
 export default function YieldBox() {
+
+    const {
+        hodlYield
+    } = useUser()
+
+
+
+
     return (
         <div>
             <YieldContainer>
                 <Center>
                     Hodl Balance: 0.00
                     <div/>
-                    Hodl Yield: 0.00
+                    Hodl Yield: {hodlYield}
                     <div/>
                     <WithdrawButton>
                         Withdraw

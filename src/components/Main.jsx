@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import Web3 from 'web3'
 
@@ -68,7 +68,6 @@ export default function Main() {
         setIsStaking,
         hodlBalance,
         setHodlBalance,
-        hodlYield,
         setHodlYield,
     } = useUser();
 
@@ -78,6 +77,7 @@ export default function Main() {
     } = useContract();
 
 
+
     const loadUser = async() => {
         let accounts = await web3.eth.getAccounts()
         let account = accounts[0]
@@ -85,7 +85,7 @@ export default function Main() {
     }
 
 
-    const loadNetwork = async() => {
+    const loadNetwork = useCallback(async() => {
         let num = await web3.currentProvider.chainId;
         if(num === '0x1'){
             setNetwork('Mainnet')
@@ -100,26 +100,66 @@ export default function Main() {
         } else {
             setNetwork('N/A')
         }
-    }
+    }, [setNetwork])
 
-    const loadDaiBalance = async(usr) => {
+
+    const loadDaiBalance = useCallback(async(usr) => {
         let bal = await dai.methods.balanceOf(usr.toString()).call()
         setDaiBalance(fromWei(bal))
-    }
+    }, [setDaiBalance])
 
-    const loadStakingBalance = async(usr) => {
+
+    const loadStakingBalance = useCallback(async(usr) => {
         let bal = await hodlFarm.methods.stakingBalance(usr.toString()).call()
         setStakingBalance(fromWei(bal))
-    }
+    }, [setStakingBalance])
 
-    const componentDidMount = async() => {
-        loadUser().then(response => {
+
+    const loadHodlYield = useCallback(async(usr) => {
+        //calculate number of minutes since stake
+        let num = await hodlFarm.methods.calculateYield(usr).call()
+        //multiply minutes by balance and divide by 100 => 1% every minute
+        let bal = ((stakingBalance * num) / 100)
+
+        let mapNum = await hodlFarm.methods.hodlBalance(usr).call()
+
+        let numA = (bal)*1
+        let numB = (fromWei(mapNum))*1
+        let totalYield = (mapNum + bal)
+
+        console.log(totalYield)
+
+        //convert to readable/shortened form
+        return(parseFloat(totalYield.toString()).toPrecision(6))
+    }, [stakingBalance])
+
+    const loadHodlBalance = useCallback(async(usr) => {
+        let bal = await hodlFarm.methods.hodlBalance(usr).call()
+        return(fromWei(bal))
+    }, [])
+
+    //
+    //init
+    //
+
+    const componentDidMount = useCallback(async() => {
+        await loadUser().then(response => {
             setUserAddress(response)
             loadDaiBalance(response)
             loadStakingBalance(response)
+            loadHodlYield(response)
+            loadHodlBalance(response).then(response => {
+                console.log(response)
+            })
         })
         await loadNetwork()
-    }
+    }, [setUserAddress, 
+        loadDaiBalance, 
+        loadStakingBalance, 
+        loadNetwork,
+        loadHodlYield,
+        loadHodlBalance
+    ])
 
 
     useEffect(() => {
@@ -128,21 +168,23 @@ export default function Main() {
         }
     }, [userAddress, componentDidMount])
 
+    //
+    //for calculating accruing yield
+    //
 
-
-
-/*
     useEffect(() => {
-        if(userAddress === ''){
-            loadUser().then(response => {
-                setUserAddress(response)
-                loadDaiBalance(response)
-                loadStakingBalance(response)
+        if(stakingBalance > 0){
+            loadHodlYield(userAddress).then(response => {
+                setHodlYield(response)
             })
-        loadNetwork()
         }
-    }, [userAddress, network, stakingBalance])
-*/
+    }, [userAddress, stakingBalance, setHodlYield, loadHodlYield])
+
+
+
+
+
+
 
     //
     //contract functions
@@ -153,6 +195,12 @@ export default function Main() {
         let bal = toWei(x)
         await dai.methods.approve(hodlFarmAddress, bal).send(utils)
         await hodlFarm.methods.stake(bal).send(utils)
+        setIsStaking(true)
+    }
+
+    const unstake = async() => {
+        let utils = { from: userAddress }
+        await hodlFarm.methods.unstake().send(utils)
     }
 
 
@@ -163,7 +211,10 @@ export default function Main() {
             <NavBar/>
             <Container>
                 <Boxes>
-                    <StakeBox  stake={stake}/>
+                    <StakeBox  
+                        stake={stake} 
+                        unstake={unstake}
+                    />
                     <YieldBox /> 
                 </Boxes>
             </Container>
