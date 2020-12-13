@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { useUser } from '../context/UserContext'
+import { useContract } from '../context/ContractContext'
+
 const Bar = styled.nav`
     width: 100%;
     height: 8rem;
@@ -35,11 +38,18 @@ const Adjust = styled.div`
 `;
 
 
-export default function NavBar(props) {
+export default function NavBar() {
 
-    
-    const userAdd = props.userAddress;
-    const networkId = props.network;
+    //user context
+    const {
+        userAddress
+    } = useUser()
+
+    //contract context
+    const {
+        network
+    } = useContract()
+
 
 
     return (
@@ -50,10 +60,10 @@ export default function NavBar(props) {
                 </Title>
                 <Adjust>
                     <Address>
-                        Farmer: {userAdd}
+                        Farmer: {userAddress}
                     </Address>
                     <Network>
-                        Network: {networkId}
+                        Network: {network}
                     </Network>
                 </Adjust>
             </Bar>

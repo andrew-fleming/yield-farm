@@ -30,8 +30,8 @@ const Boxes = styled.div`
 //
 
 const web3 = new Web3(Web3.givenProvider)
-const hodlFarmAddress = '0xB0eDd09F92a1F2410e9e03631Aa318eD99f8eEDf'
-const hodlTokenAddress = '0x840A645a86ad7Ec5d782895b5064868Fb4f92B4e'
+const hodlFarmAddress = '0xF065ad676D1867E230361561aAF0B1e6EE1d5C22'
+const hodlTokenAddress = '0x9C5A3e42CFc5eB4330B78257E30987703A2f1eeb'
 const daiAddress = '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa'
 const dai = new web3.eth.Contract(Dai.abi, daiAddress)
 const hodlToken = new web3.eth.Contract(HodlToken.abi, hodlTokenAddress)
@@ -74,30 +74,14 @@ export default function Main() {
 
     //fetching contract context
     const {
-        hodlFarmAddress,
-        setHodlFarmAddress,
-        hodlTokenAddress,
-        setHodlTokenAddress,
-        daiAddress,
-        setDaiAddress,
-        hodlFarm,
-        setHodlFarm,
-        hodlToken,
-        setHodlToken,
-        dai,
-        setDai,
-        hodlFarmBalance,
-        setHodlFarmBalance,
-        network,
         setNetwork,
-        web3,
-        setWeb3,
     } = useContract();
 
 
     const loadUser = async() => {
-        let user = await web3.eth.getAccounts()
-        return user
+        let accounts = await web3.eth.getAccounts()
+        let account = accounts[0]
+        return account
     }
 
 
@@ -124,9 +108,28 @@ export default function Main() {
     }
 
     const loadStakingBalance = async(usr) => {
-        let bal = await hodlFarm.methods.stakingBalance(usr).call()
+        let bal = await hodlFarm.methods.stakingBalance(usr.toString()).call()
         setStakingBalance(fromWei(bal))
     }
+
+    const componentDidMount = async() => {
+        loadUser().then(response => {
+            setUserAddress(response)
+            loadDaiBalance(response)
+            loadStakingBalance(response)
+        })
+        await loadNetwork()
+    }
+
+
+    useEffect(() => {
+        if(userAddress === ''){
+            componentDidMount()
+        }
+    }, [userAddress, componentDidMount])
+
+
+
 
 /*
     useEffect(() => {
@@ -145,12 +148,11 @@ export default function Main() {
     //contract functions
     //
 
-    const stake = async() => {
-        let stakeAmt = toWei()
+    const stake = async(x) => {
         let utils = { from: userAddress }
-        await dai.methods.approve(hodlFarmAddress, stakeAmt).send(utils)
-        await hodlFarm.methods.stake(stakeAmt).send(utils)
-        setIsStaking(true)
+        let bal = toWei(x)
+        await dai.methods.approve(hodlFarmAddress, bal).send(utils)
+        await hodlFarm.methods.stake(bal).send(utils)
     }
 
 
@@ -158,14 +160,11 @@ export default function Main() {
 
     return (
         <div>
-            <NavBar userAddress={userAddress} network={network}/>
+            <NavBar/>
             <Container>
                 <Boxes>
-                    <StakeBox 
-                        daiBalance={daiBalance}
-                        stakingBalance={stakingBalance}
-                    />
-                    <YieldBox/> 
+                    <StakeBox  stake={stake}/>
+                    <YieldBox /> 
                 </Boxes>
             </Container>
         </div>

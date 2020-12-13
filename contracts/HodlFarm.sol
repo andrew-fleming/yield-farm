@@ -32,14 +32,8 @@ contract HodlFarm is Ownable {
     }
 
     //staking
-    function stake(
-        uint256 _amount
-        ) public {
-
+    function stake(uint256 _amount) public {
         require(_amount > 0, 'You cannot stake zero tokens');
-
-        //approve tx
-        daiToken.approve(address(this), _amount);
 
         //transfer after approved
         daiToken.transferFrom(msg.sender, address(this), _amount);

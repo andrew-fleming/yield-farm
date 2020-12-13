@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+
+import { useUser } from '../context/UserContext'
 
 const StakeContainer = styled.div`
     background-color: green;
@@ -32,20 +34,34 @@ const UnstakeButton = styled(StakeButton)``;
 
 export default function StakeBox(props) {
 
-    const daiBal = props.daiBalance
-    const stakedBalance = props.stakingBalance
+    //user context
+    const {
+        daiBalance,
+        stakingBalance
+    } = useUser()
+
+    const [ stakeAmount, setStakeAmount ] = useState('');
+
+    //reiterate stake()
+    const stake = async() => {
+        props.stake(stakeAmount)
+    }
+
+    const handleStake = (event) => {
+        setStakeAmount(event.target.value)
+    }
 
 
     return (
         <div>
             <StakeContainer>
                 <Center>
-                    Staked Balance: {stakedBalance}
+                    Staked Balance: {stakingBalance}
                     <div/>
-                    Dai Balance: {daiBal}
+                    Dai Balance: {daiBalance}
                     <div>
-                    <StakeForm />
-                    <StakeButton >
+                    <StakeForm onChange={handleStake}/>
+                    <StakeButton onClick={stake}>
                         Stake
                     </StakeButton>
                     </div>
