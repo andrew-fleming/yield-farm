@@ -51,6 +51,10 @@ function App() {
   const [ hodlFarmBalance, setHodlFarmBalance ] = useState('');
   const [ network, setNetwork ] = useState('');
   const [ web3, setWeb3 ] = useState('');
+  //calls to update balances
+  const [ sentStake, setSentStake ] = useState('');
+  const [ sentUnstake, setSentUnstake ] = useState('');
+  const [ sentWithdrawal, setSentWithdrawal ] = useState('');
 
 
   const contractState = {
@@ -72,6 +76,13 @@ function App() {
     setNetwork,
     web3,
     setWeb3,
+    //calls to update balances
+    sentStake,
+    setSentStake,
+    sentUnstake,
+    setSentUnstake,
+    sentWithdrawal,
+    setSentWithdrawal
   }
 
 

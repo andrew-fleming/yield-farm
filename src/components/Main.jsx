@@ -73,6 +73,12 @@ export default function Main() {
     //fetching contract context
     const {
         setNetwork,
+        sentStake,
+        setSentStake,
+        sentUnstake,
+        setSentUnstake,
+        sentWithdrawal,
+        setSentWithdrawal
     } = useContract();
 
 
@@ -137,7 +143,7 @@ export default function Main() {
         let totalYield = (numA + numB)
 
         //convert to readable/shortened form
-        return(parseFloat(totalYield.toString()).toPrecision(6))
+        return(parseFloat(totalYield).toString())
     }, [stakingBalance])
 
 
@@ -162,7 +168,6 @@ export default function Main() {
             })
             loadStakingBalance(response).then(response => {
                 setIsStaking(response)
-                console.log(response)
             })
         })
         await loadNetwork()
@@ -174,7 +179,7 @@ export default function Main() {
         loadHodlBalance,
         setUserAddress,
         setHodlBalance,
-        setIsStaking
+        setIsStaking,
     ])
 
 
@@ -183,6 +188,10 @@ export default function Main() {
             componentDidMount()
         }
     }, [userAddress, componentDidMount])
+
+
+
+
 
     //
     //for calculating accruing yield
@@ -220,22 +229,70 @@ export default function Main() {
     //
 
     const stake = async(x) => {
+        setSentStake(false)
         let utils = { from: userAddress }
         let bal = toWei(x)
         await dai.methods.approve(hodlFarmAddress, bal).send(utils)
         await hodlFarm.methods.stake(bal).send(utils)
+        .on('receipt', function(receipt){
+            console.log(receipt)
+
+            //looks for balance change
+            setSentStake(true)
+        })
+        //turns on the update yield timer
         setIsStaking(true)
     }
 
     const unstake = async() => {
+        setSentUnstake(false)
         let utils = { from: userAddress }
         await hodlFarm.methods.unstake().send(utils)
+        .on('receipt', function(receipt){
+            console.log(receipt)
+
+            //looks for balance change
+            setSentUnstake(true)
+        })
+        //turns off update yield timer
+        setIsStaking(false)
     }
 
     const withdrawYield = async() => {
+        setSentWithdrawal(false)
         let utils = { from: userAddress }
         await hodlFarm.methods.withdrawYield().send(utils)
+        .on('receipt', function(receipt){
+            console.log(receipt)
+
+            //looks for balance change
+            setSentWithdrawal(true)
+        })
     }
+
+
+    //
+    //waiting to fetch new balance after function call
+    //
+
+    //for dai
+
+    useEffect(() => {
+        if(sentStake || sentUnstake){
+            loadDaiBalance(userAddress)
+            loadStakingBalance(userAddress)
+        }
+    }, [sentStake, sentUnstake, userAddress, loadDaiBalance, loadStakingBalance])
+
+    
+    //for hodlToken
+    useEffect(() => {
+        if(sentWithdrawal){
+            loadHodlBalance(userAddress)
+            setHodlYield(0)
+        }
+    }, [sentWithdrawal, userAddress, loadHodlBalance, setHodlYield])
+
 
 
 

@@ -18,7 +18,14 @@ export const ContractContext = React.createContext({
     network: '',
     setNetwork: () => {},
     web3: '',
-    setWeb3: () => {}
+    setWeb3: () => {},
+    //calls to update balances
+    sentStake: '',
+    setSentStake: () => {},
+    sentUnstake: '',
+    setSentUnstake: () => {},
+    sentWithdrawal: '',
+    setSentWithdrawal: () => {}
 })
 
 export const ContractProvider = ContractContext.Provider
