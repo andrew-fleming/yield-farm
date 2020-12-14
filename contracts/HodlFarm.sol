@@ -51,6 +51,16 @@ contract HodlFarm is Ownable {
         uint timeStaked = calculateYield(msg.sender);
         uint bal = (stakingBalance[msg.sender] * timeStaked) / 100;
 
+        //check if leftover balance from prior staking remains
+        if(hodlBalance[msg.sender] != 0){
+            //move balance to seperate variable
+            uint oldBal = hodlBalance[msg.sender];
+            //remove mapping balance
+            hodlBalance[msg.sender] = 0;
+            //add mapped balance with active balance
+            bal += oldBal;
+        }
+
         //reset timestamp
         startTime[msg.sender] = block.timestamp;
         

@@ -10,7 +10,7 @@ const YieldContainer = styled.div`
     margin-top: 2rem;
     opacity: 0.9;
     color: white;
-    font-size: 2rem;
+    font-size: 1.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,30 +21,37 @@ const WithdrawButton = styled.button`
     height: 5rem;
     margin-top: 1rem;
     font-size: 2rem;
+    background-color: #654321;
+    color: white;
+    margin-top: 2rem;
 `;
 
 const Center = styled.div`
     margin-top: 2rem;
 `;
 
-export default function YieldBox() {
+export default function YieldBox(props) {
 
     const {
-        hodlYield
+        hodlYield,
+        hodlBalance
     } = useUser()
 
 
+    const withdrawYield = () => {
+        props.withdrawYield()
+    }
 
 
     return (
         <div>
             <YieldContainer>
                 <Center>
-                    Hodl Balance: 0.00
+                    Hodl Balance: {hodlBalance}
                     <div/>
                     Hodl Yield: {hodlYield}
                     <div/>
-                    <WithdrawButton>
+                    <WithdrawButton onClick={withdrawYield}>
                         Withdraw
                     </WithdrawButton>
                 </Center>
