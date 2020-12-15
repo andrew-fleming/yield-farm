@@ -44,7 +44,7 @@ contract HodlFarm is Ownable {
     function stake(uint256 _amount) public {
         require(_amount > 0, 'You cannot stake zero tokens');
         daiToken.transferFrom(msg.sender, address(this), _amount);
-        stakingBalance[msg.sender] += _amount;
+        stakingBalance[msg.sender] = SafeMath.add(stakingBalance[msg.sender], _amount);
         isStaking[msg.sender] = true;
         startTime[msg.sender] = block.timestamp;
     }
@@ -61,11 +61,11 @@ contract HodlFarm is Ownable {
      */
     function withdrawYield() public {
         uint timeStaked = calculateYield(msg.sender);
-        uint bal = (stakingBalance[msg.sender] * timeStaked) / 100;
+        uint bal = SafeMath.div(SafeMath.mul(stakingBalance[msg.sender], timeStaked), 100);
         if(hodlBalance[msg.sender] != 0){
             uint oldBal = hodlBalance[msg.sender];
             hodlBalance[msg.sender] = 0;
-            bal += oldBal;
+            bal = SafeMath.add(bal, oldBal);
         }
         startTime[msg.sender] = block.timestamp;
         hodlToken.transfer(msg.sender, bal);
@@ -81,9 +81,9 @@ contract HodlFarm is Ownable {
      */
     function calculateYield(address _usr) public view returns(uint){
         uint end = block.timestamp;
-        uint totalTime = end - startTime[_usr];
-        uint minTime = totalTime / 60;
-        return minTime;
+        uint totalTime = SafeMath.sub(end, startTime[_usr]);
+        uint inMinutes = SafeMath.div(totalTime, 60);
+        return inMinutes;
     }
 
 
@@ -95,13 +95,13 @@ contract HodlFarm is Ownable {
         uint timeStaked = calculateYield(msg.sender);
 
         //calculate yield balance
-        uint yield = (stakingBalance[msg.sender] * timeStaked) / 100;
+        uint yield = SafeMath.div(SafeMath.mul(stakingBalance[msg.sender], timeStaked), 100);
 
         //reset timestamp
         startTime[msg.sender] = block.timestamp;
 
         //update mapping
-        hodlBalance[msg.sender] += yield;
+        hodlBalance[msg.sender] = SafeMath.add(hodlBalance[msg.sender], yield);
         
 
         //start actual unstaking process
