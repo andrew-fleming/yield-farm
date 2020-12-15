@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/yield-farm/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/yield-farm/static/js/main.a8dcca8c.chunk.js",
+    "main.js.map": "/yield-farm/static/js/main.a8dcca8c.chunk.js.map",
+    "runtime-main.js": "/yield-farm/static/js/runtime-main.3b4ff17e.js",
+    "runtime-main.js.map": "/yield-farm/static/js/runtime-main.3b4ff17e.js.map",
+    "static/js/2.e1c14ec5.chunk.js": "/yield-farm/static/js/2.e1c14ec5.chunk.js",
+    "static/js/2.e1c14ec5.chunk.js.map": "/yield-farm/static/js/2.e1c14ec5.chunk.js.map",
+    "static/js/3.d382cb6e.chunk.js": "/yield-farm/static/js/3.d382cb6e.chunk.js",
+    "static/js/3.d382cb6e.chunk.js.map": "/yield-farm/static/js/3.d382cb6e.chunk.js.map",
+    "index.html": "/yield-farm/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/yield-farm/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.e1c14ec5.chunk.js.LICENSE.txt": "/yield-farm/static/js/2.e1c14ec5.chunk.js.LICENSE.txt",
+    "static/media/Farmer.96f82f20.png": "/yield-farm/static/media/Farmer.96f82f20.png",
+    "static/media/grass.797c5bed.jpg": "/yield-farm/static/media/grass.797c5bed.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3b4ff17e.js",
+    "static/js/2.e1c14ec5.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.a8dcca8c.chunk.js"
+  ]
+}
