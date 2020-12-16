@@ -49,18 +49,15 @@ const Img = styled.img`
 
 export default function NavBar() {
 
-    //user context
     const {
         userAddress
     } = useUser()
 
-    //contract context
     const {
         network
     } = useContract()
 
-    //cut out middle of address
-    const addr = userAddress.slice(0, 5) + '...' + userAddress.slice(38, 42)
+    const address = userAddress ? userAddress.slice(0, 5) + '...' + userAddress.slice(38, 42) : null
 
 
     return (
@@ -69,7 +66,7 @@ export default function NavBar() {
                 <Adjust>
                     <Address>
                         <Img src={Farmer} />
-                        Farmer: {addr}
+                        Farmer: {address}
                     </Address>
                     <Title>
                         Hodl Farm

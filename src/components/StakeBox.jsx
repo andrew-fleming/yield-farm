@@ -44,15 +44,15 @@ const UnstakeButton = styled(StakeButton)``;
 
 export default function StakeBox(props) {
 
-    //user context
     const {
         daiBalance,
         stakingBalance,
     } = useUser()
 
+    
     const [ stakeAmount, setStakeAmount ] = useState('');
 
-    //reiterate stake()
+
     const stake = async() => {
         props.stake(stakeAmount)
     }
