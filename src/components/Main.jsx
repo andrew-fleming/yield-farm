@@ -30,8 +30,8 @@ const Boxes = styled.div`
 //
 
 const web3 = new Web3(Web3.givenProvider)
-const hodlFarmAddress = '0x14FFB3046B74d6A2ff859F2515619F405b007F6F'
-const hodlTokenAddress = '0xb72398B01cA34589C20122807899e9621723dF6a'
+const hodlFarmAddress = '0xEfA66c48E49d57413ce857B7e92C15e0c39Ec134'
+const hodlTokenAddress = '0xFCdB91D801496C4B893eF6afF867fD78cDab34D8'
 const daiAddress = '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa'
 const dai = new web3.eth.Contract(Dai.abi, daiAddress)
 const hodlToken = new web3.eth.Contract(HodlToken.abi, hodlTokenAddress)
@@ -129,7 +129,7 @@ export default function Main() {
 
     const loadHodlYield = useCallback(async(usr) => {
         //calculate number of minutes since stake
-        let num = await hodlFarm.methods.calculateYield(usr).call()
+        let num = await hodlFarm.methods.calculateYieldTime(usr).call()
         
         //multiply minutes by balance and divide by 100 => 1% every minute
         let bal = ((stakingBalance * num) / 100)
