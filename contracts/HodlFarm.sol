@@ -60,6 +60,7 @@ contract HodlFarm is Ownable {
     *     calculateYield function).
      */
     function withdrawYield() public {
+        require(hodlBalance[msg.sender] > 0 || startTime[msg.sender] != block.timestamp);
         uint timeStaked = calculateYieldTime(msg.sender);
         uint bal = SafeMath.div(SafeMath.mul(stakingBalance[msg.sender], timeStaked), 100);
         if(hodlBalance[msg.sender] != 0){

@@ -25,24 +25,24 @@ const Boxes = styled.div`
     justify-content: space-around;
 `;
 
-//
-//blockchain info
-//
+
+/**
+ * @notice The contract variables are declared.
+ */
 
 const web3 = new Web3(Web3.givenProvider)
-const hodlFarmAddress = '0xEfA66c48E49d57413ce857B7e92C15e0c39Ec134'
-const hodlTokenAddress = '0xFCdB91D801496C4B893eF6afF867fD78cDab34D8'
+const hodlFarmAddress = '0xb3A7bC3fB20c289311e91dfE778d16590884e6F9'
+const hodlTokenAddress = '0xec1285C81Ef9d039A46896e09f8f29dEb7d0556e'
 const daiAddress = '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa'
 const dai = new web3.eth.Contract(Dai.abi, daiAddress)
 const hodlToken = new web3.eth.Contract(HodlToken.abi, hodlTokenAddress)
 const hodlFarm = new web3.eth.Contract(HodlFarm.abi, hodlFarmAddress)
 
 
-
-
-//
-//token function to convert wei to eth
-//
+/**
+ * @notice These functions convert to/from wei from/to eth.
+ * @param {*} n This is the number to convert.
+ */
 
 const toWei = (n) => {
     return web3.utils.toWei(n, 'ether')
@@ -56,7 +56,10 @@ const fromWei = (n) => {
 export default function Main() {
 
 
-    //fetching user content
+    /**
+     * @notice This lists the dApp's state fetched from useContext.
+     *         The UserContext is declared first.
+     */
     const {
         userAddress,
         setUserAddress,
@@ -70,7 +73,10 @@ export default function Main() {
         hodlYield
     } = useUser();
 
-    //fetching contract context
+    /**
+     * @notice The following declares the ContractContext.
+     */
+    
     const {
         setNetwork,
         sentStake,
@@ -82,6 +88,11 @@ export default function Main() {
     } = useContract();
 
 
+    /**
+     * @notice The following functions are used for fetching both user
+     *         and contract data. These functions are read-only regarding 
+     *         the blockchain.
+     */
 
     const loadUser = async() => {
         let accounts = await web3.eth.getAccounts()
@@ -117,8 +128,6 @@ export default function Main() {
     const loadStakingBalance = useCallback(async(usr) => {
         let bal = await hodlFarm.methods.stakingBalance(usr.toString()).call()
         setStakingBalance(fromWei(bal))
-
-        //if balance greater than 0, return true
         if ( bal > 0){
             return true
         } else {
@@ -126,23 +135,25 @@ export default function Main() {
         }
     }, [setStakingBalance])
 
-
+/**
+ * @notice This function fetches the current yield accrued by user's stake.
+ * @dev    This operates almost exactly as in the Solidity contract for 
+ *         withdrawing yield. First, we fetch the number of minutes staked. Then,
+ *         it saves the quotient of dividing the product (staking balance times 
+ *         the number of minutes) by 100 (creating 1% of staked balance per minute).
+ * 
+ *          Before adding the initYield with the savedYield, they're both multiplied
+ *          by one. This turns the string balances into numbers; otherwise, they concatenate.
+ */
     const loadHodlYield = useCallback(async(usr) => {
-        //calculate number of minutes since stake
-        let num = await hodlFarm.methods.calculateYieldTime(usr).call()
-        
-        //multiply minutes by balance and divide by 100 => 1% every minute
-        let bal = ((stakingBalance * num) / 100)
+        let numOfMinutes = await hodlFarm.methods.calculateYieldTime(usr).call()
+        let initYield = ((stakingBalance * numOfMinutes) / 100)
+        let savedYield = await hodlFarm.methods.hodlBalance(usr).call()
 
-        //fetch saved balance (if any) mapped from older staking
-        let mapNum = await hodlFarm.methods.hodlBalance(usr).call()
+        let balA = (initYield)*1      //These variables convert the fetched strings into numbers
+        let balB = (fromWei(savedYield))*1
+        let totalYield = (balA + balB)
 
-        //convert strings into numbers so compiler does not concatenate
-        let numA = (bal)*1
-        let numB = (fromWei(mapNum))*1
-        let totalYield = (numA + numB)
-
-        //convert to readable/shortened form
         return(parseFloat(totalYield).toString())
     }, [stakingBalance])
 
@@ -154,11 +165,13 @@ export default function Main() {
 
 
 
-    //
-    //init
-    //
+    /**
+     * @notice The componentDidMount function initializes all of the previous
+     *         functions for the useEffect hook.
+     */
 
     const componentDidMount = useCallback(async() => {
+        await loadNetwork()
         await loadUser().then(response => {
             setUserAddress(response)
             loadDaiBalance(response)
@@ -170,7 +183,6 @@ export default function Main() {
                 setIsStaking(response)
             })
         })
-        await loadNetwork()
     }, [ 
         loadDaiBalance, 
         loadStakingBalance, 
@@ -189,13 +201,10 @@ export default function Main() {
         }
     }, [userAddress, componentDidMount])
 
-
-
-
-
-    //
-    //for calculating accruing yield
-    //
+    /**
+     * @notice This useEffect hook fetches the side effects of the loadHodlYield
+     *         function in order to display the user's current yield.
+     */
 
     useEffect(() => {
         if(stakingBalance > 0 || userAddress !== ''){
@@ -205,7 +214,10 @@ export default function Main() {
         }
     }, [userAddress, stakingBalance, hodlYield, isStaking, setHodlYield, loadHodlYield, setIsStaking])
 
-
+    /**
+     * @notice This useEffect creates a 60 second timer when the staking mechanism
+     *          is triggered.
+     */
     useEffect(() => {
         let interval = null
         if(isStaking){
@@ -218,15 +230,18 @@ export default function Main() {
         return () => clearInterval(interval)
     }, [isStaking, userAddress, loadHodlYield, setHodlYield])
 
-
-
-
-
-
-
-    //
-    //contract functions
-    //
+   /**
+    * @notice The following functions write to the smart contract.
+    * 
+    * 
+    * @notice This function locks up ('stakes') Dai in the contract.
+    * @dev    The sentStake, sentUnstake, and sentWithdrawal boolean values 
+    *         are used as signals for the useEffect hook. Instead of setting
+    *         their default value to false, they're triggered to false in the
+    *         beginning of the function call. Upon receipt, they're switched to 
+    *         'on.'
+    * @param {*This is the amount of Dai to stake in the contract.} x 
+    */
 
     const stake = async(x) => {
         setSentStake(false)
@@ -236,11 +251,8 @@ export default function Main() {
         await hodlFarm.methods.stake(bal).send(utils)
         .on('receipt', function(receipt){
             console.log(receipt)
-
-            //looks for balance change
             setSentStake(true)
         })
-        //turns on the update yield timer
         setIsStaking(true)
     }
 
@@ -250,11 +262,8 @@ export default function Main() {
         await hodlFarm.methods.unstake().send(utils)
         .on('receipt', function(receipt){
             console.log(receipt)
-
-            //looks for balance change
             setSentUnstake(true)
         })
-        //turns off update yield timer
         setIsStaking(false)
     }
 
@@ -264,8 +273,6 @@ export default function Main() {
         await hodlFarm.methods.withdrawYield().send(utils)
         .on('receipt', function(receipt){
             console.log(receipt)
-
-            //looks for balance change
             setSentWithdrawal(true)
         })
     }
@@ -277,6 +284,12 @@ export default function Main() {
 
     //for dai
 
+    /**
+     * @notice These useEffect hooks are triggered by the preceding functions.
+     *         The former hook fetches the Dai balances (Dai balance and stakingBalance).
+     *         The latter effect fetches the hodlToken balance and current yield.
+     */
+
     useEffect(() => {
         if(sentStake || sentUnstake){
             loadDaiBalance(userAddress)
@@ -284,18 +297,13 @@ export default function Main() {
         }
     }, [sentStake, sentUnstake, userAddress, loadDaiBalance, loadStakingBalance])
 
-    
-    //for hodlToken
-    useEffect(() => {
+
+        useEffect(() => {
         if(sentWithdrawal){
             loadHodlBalance(userAddress)
             setHodlYield(0)
         }
     }, [sentWithdrawal, userAddress, loadHodlBalance, setHodlYield])
-
-
-
-
 
     return (
         <div>

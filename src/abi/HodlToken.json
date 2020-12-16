@@ -300,14 +300,14 @@
     "absolutePath": "/C/Users/15183/Documents/dapp-projects/yield-farm/contracts/HodlToken.sol",
     "exportedSymbols": {
       "HodlToken": [
-        635
+        652
       ]
     },
-    "id": 636,
+    "id": 653,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 615,
+        "id": 632,
         "literals": [
           "solidity",
           "^",
@@ -320,10 +320,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 616,
+        "id": 633,
         "nodeType": "ImportDirective",
-        "scope": 636,
-        "sourceUnit": 1488,
+        "scope": 653,
+        "sourceUnit": 1505,
         "src": "27:55:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -335,42 +335,42 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 617,
+              "id": 634,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1487,
+              "referencedDeclaration": 1504,
               "src": "108:5:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$1487",
+                "typeIdentifier": "t_contract$_ERC20_$1504",
                 "typeString": "contract ERC20"
               }
             },
-            "id": 618,
+            "id": 635,
             "nodeType": "InheritanceSpecifier",
             "src": "108:5:2"
           }
         ],
         "contractDependencies": [
-          713,
-          1487,
-          1556
+          730,
+          1504,
+          1573
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 635,
+        "id": 652,
         "linearizedBaseContracts": [
-          635,
-          1487,
-          1556,
-          713
+          652,
+          1504,
+          1573,
+          730
         ],
         "name": "HodlToken",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 633,
+              "id": 650,
               "nodeType": "Block",
               "src": "185:51:2",
               "statements": [
@@ -382,18 +382,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 628,
+                          "id": 645,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1571,
+                          "referencedDeclaration": 1588,
                           "src": "202:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 629,
+                        "id": 646,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -409,11 +409,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 630,
+                        "id": 647,
                         "name": "initialSupply",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 620,
+                        "referencedDeclaration": 637,
                         "src": "214:13:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -432,18 +432,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 627,
+                      "id": 644,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1367,
+                      "referencedDeclaration": 1384,
                       "src": "196:5:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 631,
+                    "id": 648,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -458,14 +458,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 632,
+                  "id": 649,
                   "nodeType": "ExpressionStatement",
                   "src": "196:32:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 634,
+            "id": 651,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -474,7 +474,7 @@
                   {
                     "argumentTypes": null,
                     "hexValue": "486f646c",
-                    "id": 623,
+                    "id": 640,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -492,7 +492,7 @@
                   {
                     "argumentTypes": null,
                     "hexValue": "484f444c",
-                    "id": 624,
+                    "id": 641,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -508,17 +508,17 @@
                     "value": "HODL"
                   }
                 ],
-                "id": 625,
+                "id": 642,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 622,
+                  "id": 639,
                   "name": "ERC20",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1487,
+                  "referencedDeclaration": 1504,
                   "src": "156:5:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1487_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1504_$",
                     "typeString": "type(contract ERC20)"
                   }
                 },
@@ -530,16 +530,16 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 621,
+              "id": 638,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 620,
+                  "id": 637,
                   "name": "initialSupply",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 634,
+                  "scope": 651,
                   "src": "133:21:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -548,7 +548,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 619,
+                    "id": 636,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "133:7:2",
@@ -564,19 +564,19 @@
               "src": "132:23:2"
             },
             "returnParameters": {
-              "id": 626,
+              "id": 643,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "185:0:2"
             },
-            "scope": 635,
+            "scope": 652,
             "src": "121:115:2",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 636,
+        "scope": 653,
         "src": "86:153:2"
       }
     ],
@@ -586,14 +586,14 @@
     "absolutePath": "/C/Users/15183/Documents/dapp-projects/yield-farm/contracts/HodlToken.sol",
     "exportedSymbols": {
       "HodlToken": [
-        635
+        652
       ]
     },
-    "id": 636,
+    "id": 653,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 615,
+        "id": 632,
         "literals": [
           "solidity",
           "^",
@@ -606,10 +606,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 616,
+        "id": 633,
         "nodeType": "ImportDirective",
-        "scope": 636,
-        "sourceUnit": 1488,
+        "scope": 653,
+        "sourceUnit": 1505,
         "src": "27:55:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -621,42 +621,42 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 617,
+              "id": 634,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1487,
+              "referencedDeclaration": 1504,
               "src": "108:5:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$1487",
+                "typeIdentifier": "t_contract$_ERC20_$1504",
                 "typeString": "contract ERC20"
               }
             },
-            "id": 618,
+            "id": 635,
             "nodeType": "InheritanceSpecifier",
             "src": "108:5:2"
           }
         ],
         "contractDependencies": [
-          713,
-          1487,
-          1556
+          730,
+          1504,
+          1573
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 635,
+        "id": 652,
         "linearizedBaseContracts": [
-          635,
-          1487,
-          1556,
-          713
+          652,
+          1504,
+          1573,
+          730
         ],
         "name": "HodlToken",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 633,
+              "id": 650,
               "nodeType": "Block",
               "src": "185:51:2",
               "statements": [
@@ -668,18 +668,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 628,
+                          "id": 645,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1571,
+                          "referencedDeclaration": 1588,
                           "src": "202:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 629,
+                        "id": 646,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -695,11 +695,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 630,
+                        "id": 647,
                         "name": "initialSupply",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 620,
+                        "referencedDeclaration": 637,
                         "src": "214:13:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -718,18 +718,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 627,
+                      "id": 644,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1367,
+                      "referencedDeclaration": 1384,
                       "src": "196:5:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 631,
+                    "id": 648,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -744,14 +744,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 632,
+                  "id": 649,
                   "nodeType": "ExpressionStatement",
                   "src": "196:32:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 634,
+            "id": 651,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -760,7 +760,7 @@
                   {
                     "argumentTypes": null,
                     "hexValue": "486f646c",
-                    "id": 623,
+                    "id": 640,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -778,7 +778,7 @@
                   {
                     "argumentTypes": null,
                     "hexValue": "484f444c",
-                    "id": 624,
+                    "id": 641,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -794,17 +794,17 @@
                     "value": "HODL"
                   }
                 ],
-                "id": 625,
+                "id": 642,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 622,
+                  "id": 639,
                   "name": "ERC20",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1487,
+                  "referencedDeclaration": 1504,
                   "src": "156:5:2",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1487_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1504_$",
                     "typeString": "type(contract ERC20)"
                   }
                 },
@@ -816,16 +816,16 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 621,
+              "id": 638,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 620,
+                  "id": 637,
                   "name": "initialSupply",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 634,
+                  "scope": 651,
                   "src": "133:21:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -834,7 +834,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 619,
+                    "id": 636,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "133:7:2",
@@ -850,19 +850,19 @@
               "src": "132:23:2"
             },
             "returnParameters": {
-              "id": 626,
+              "id": 643,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "185:0:2"
             },
-            "scope": 635,
+            "scope": 652,
             "src": "121:115:2",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 636,
+        "scope": 653,
         "src": "86:153:2"
       }
     ],
@@ -927,12 +927,12 @@
         }
       },
       "links": {},
-      "address": "0xFCdB91D801496C4B893eF6afF867fD78cDab34D8",
-      "transactionHash": "0x9650911890968683897927f06d9e109b2e7a304e8df1c9dbdf5f0b9e8bdf0076"
+      "address": "0xec1285C81Ef9d039A46896e09f8f29dEb7d0556e",
+      "transactionHash": "0xa7e277ae432feca03d41669b2c267b9b085c5723a07e04fb0c772d4150f64f90"
     }
   },
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-12-15T23:54:08.862Z",
+  "updatedAt": "2020-12-16T00:58:01.242Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {
