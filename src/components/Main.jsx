@@ -121,13 +121,23 @@ export default function Main() {
 
     const loadDaiBalance = useCallback(async(usr) => {
         let bal = await dai.methods.balanceOf(usr.toString()).call()
-        setDaiBalance(fromWei(bal))
+        let formatBal = fromWei(bal)
+        if(formatBal.length > 5){
+            setDaiBalance(Number.parseFloat(formatBal).toPrecision(4))
+        } else {
+            setDaiBalance(formatBal)
+        }
     }, [setDaiBalance])
 
 
     const loadStakingBalance = useCallback(async(usr) => {
         let bal = await hodlFarm.methods.stakingBalance(usr.toString()).call()
-        setStakingBalance(fromWei(bal))
+        let formatBal = fromWei(bal)
+        if(formatBal.length > 5) {
+            setStakingBalance(Number.parseFloat(fromWei(bal)).toPrecision(4))
+        } else {
+            setStakingBalance(formatBal)
+        }
         if ( bal > 0){
             return true
         } else {
@@ -154,13 +164,22 @@ export default function Main() {
         let balB = (fromWei(savedYield))*1
         let totalYield = (balA + balB)
 
-        return(parseFloat(totalYield).toString())
+        if(totalYield.toString().length > 5) {
+            return(Number.parseFloat(totalYield).toPrecision(3))
+        } else {
+            return totalYield
+        }
     }, [stakingBalance])
 
 
     const loadHodlBalance = useCallback(async(usr) => {
         let bal = await hodlToken.methods.balanceOf(usr).call()
-        return(fromWei(bal))
+        let formatBal = fromWei(bal)
+        if(formatBal.length > 5) {
+            return(Number.parseFloat(fromWei(bal)).toFixed(4))
+        } else {
+            return formatBal
+        }
     }, [])
 
 
@@ -300,10 +319,12 @@ export default function Main() {
 
         useEffect(() => {
         if(sentWithdrawal){
-            loadHodlBalance(userAddress)
+            loadHodlBalance(userAddress).then(res => {
+                setHodlBalance(res)
+            })
             setHodlYield(0)
         }
-    }, [sentWithdrawal, userAddress, loadHodlBalance, setHodlYield])
+    }, [sentWithdrawal, userAddress, loadHodlBalance, setHodlYield, setHodlBalance])
 
     return (
         <div>
